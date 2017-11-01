@@ -82,10 +82,24 @@ public class MainWindow extends JFrame {
 		JMenuItem mntmAddUser = new JMenuItem("Add user");
 		mnAction.add(mntmAddUser);
 		
-		JMenuItem mntmAddAdmin = new JMenuItem("Add admin");
-		mnAction.add(mntmAddAdmin);
+		JMenuItem mntmAddLibrarian = new JMenuItem("Add librarian");
+		mntmAddLibrarian.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AddLibrarianWindow window = new AddLibrarianWindow();
+				window.setResizable(false);
+			}
+		});
+		mnAction.add(mntmAddLibrarian);
 		
 		JMenuItem mntmAddBook = new JMenuItem("Add book");
+		mntmAddBook.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AddBookForm addBookForm = new AddBookForm();
+				addBookForm.setVisible(true);
+				addBookForm.setResizable(false);
+				addBookForm.setBounds(0, 0, 365, 420);
+			}
+		});
 		mnAction.add(mntmAddBook);
 		
 		JMenuItem mntmAddCategory = new JMenuItem("Add category");
@@ -111,6 +125,12 @@ public class MainWindow extends JFrame {
 		getContentPane().add(btnAddBook);
 		
 		JButton btnAddUser = new JButton("Add user");
+		btnAddUser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AddUserFrame userFrame = new AddUserFrame();
+				userFrame.setVisible(true);
+			}
+		});
 		btnAddUser.setBounds(264, 369, 89, 23);
 		getContentPane().add(btnAddUser);
 		

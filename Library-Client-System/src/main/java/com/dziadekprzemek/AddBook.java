@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.xml.ws.Dispatch;
 
 public class AddBook {
 	public void updateBookList(char operation, Integer bookId, Integer categoryId, String isbn, String title, String author, Integer pages, String publisher, Integer year, String description){
@@ -29,7 +30,8 @@ public class AddBook {
 			
 			if(ps.executeUpdate()>0) {
 				
-				JOptionPane.showConfirmDialog(null, "Book has been added!");
+				JOptionPane.showMessageDialog(null, "Book has been added!");
+				
 				
 			}else {
 				JOptionPane.showMessageDialog(null, "Error!");
