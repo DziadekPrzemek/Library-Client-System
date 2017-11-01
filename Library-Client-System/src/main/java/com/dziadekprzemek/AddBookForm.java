@@ -12,6 +12,8 @@ import javax.swing.JTextPane;
 
 
 public class AddBookForm extends JFrame {
+	
+	private static final long serialVersionUID = 1L;
 	private JTextField titleTextField;
 	private JTextField authorTextField;
 	private JTextField isbnTextField;
@@ -19,9 +21,7 @@ public class AddBookForm extends JFrame {
 	private JTextField yearTextField;
 	private JTextField publisherTextField;
 
-	/**
-	 * Create the panel.
-	 */
+	
 	public AddBookForm() {
 		getContentPane().setLayout(null);
 		ImageIcon img = new ImageIcon("H:\\Dev\\Projekty\\Library-Client-System\\src\\main\\java\\Images\\book-ico.png");
@@ -101,8 +101,6 @@ public class AddBookForm extends JFrame {
 				String description = descriptionTextField.getText();
 				String isbn = isbnTextField.getText();
 				String publisher = publisherTextField.getText();
-				
-				String categoryId = null;
 				
 				AddBook addbook = new AddBook();
 				addbook.updateBookList('i', null, null, isbn, title, author, pages, publisher, year, description);
