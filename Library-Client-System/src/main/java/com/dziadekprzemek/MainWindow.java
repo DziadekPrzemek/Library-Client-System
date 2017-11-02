@@ -17,6 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JLabel;
+import java.awt.Font;
 
 public class MainWindow extends JFrame {
 
@@ -28,7 +30,7 @@ public class MainWindow extends JFrame {
 	
 	public MainWindow() {
 		
-			
+
 		setVisible(true);
 		getContentPane().setLayout(null);
 		setTitle("Library Managament System");
@@ -47,11 +49,12 @@ public class MainWindow extends JFrame {
 		table = new JTable();
 		
 		scrollPane.setViewportView(table);
+		table.setEnabled(false);
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
-				"Book ID", "Category ID", "ISBN", "Title", "Author", "Pages", "Publisher", "Year", "Description"
+				"Book ID", "ISBN", "Title", "Author", "Pages", "Publisher", "Year", "Description"
 			}
 		));
 		
@@ -79,9 +82,6 @@ public class MainWindow extends JFrame {
 		JMenu mnAction = new JMenu("Action");
 		menuBar.add(mnAction);
 		
-		JMenuItem mntmAddUser = new JMenuItem("Add user");
-		mnAction.add(mntmAddUser);
-		
 		JMenuItem mntmAddLibrarian = new JMenuItem("Add librarian");
 		mntmAddLibrarian.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -102,9 +102,6 @@ public class MainWindow extends JFrame {
 		});
 		mnAction.add(mntmAddBook);
 		
-		JMenuItem mntmAddCategory = new JMenuItem("Add category");
-		mnAction.add(mntmAddCategory);
-		
 		JMenu mnHelp = new JMenu("Help");
 		menuBar.add(mnHelp);
 		
@@ -121,7 +118,7 @@ public class MainWindow extends JFrame {
 				addBookForm.setBounds(0, 0, 365, 420);
 			}
 		});
-		btnAddBook.setBounds(165, 369, 89, 23);
+		btnAddBook.setBounds(10, 364, 89, 23);
 		getContentPane().add(btnAddBook);
 		
 		JButton btnAddUser = new JButton("Add user");
@@ -131,12 +128,15 @@ public class MainWindow extends JFrame {
 				userFrame.setVisible(true);
 			}
 		});
-		btnAddUser.setBounds(264, 369, 89, 23);
+		btnAddUser.setBounds(109, 364, 89, 23);
 		getContentPane().add(btnAddUser);
 		
-		JButton btnAddReservation = new JButton("Add reservation");
-		btnAddReservation.setBounds(10, 369, 139, 23);
-		getContentPane().add(btnAddReservation);
+		JLabel Nazwa_zalogowanego = new JLabel("");
+		Nazwa_zalogowanego.setFont(new Font("Tahoma", Font.BOLD, 15));
+		Nazwa_zalogowanego.setBounds(831, 364, 112, 23);
+		getContentPane().add(Nazwa_zalogowanego);
+		
+		
 		
 		initComponents();
 		
@@ -149,6 +149,7 @@ public class MainWindow extends JFrame {
 		MainWindow.fillBookTable(table,"");
 		
 	}
+	
 
 
 	public static void fillBookTable(JTable table, String valueToSearch) {
@@ -167,14 +168,14 @@ public class MainWindow extends JFrame {
 		while(rs.next()) {
 			row = new Object[9];
 			row[0] =rs.getInt(1);
-			row[1] =rs.getInt(2);
+			
+			row[1] =rs.getString(2);
 			row[2] =rs.getString(3);
 			row[3] =rs.getString(4);
-			row[4] =rs.getString(5);
-			row[5] =rs.getInt(6);
-			row[6] =rs.getString(7);
-			row[7] =rs.getInt(8);
-			row[8] =rs.getString(9);
+			row[4] =rs.getInt(5);
+			row[5] =rs.getString(6);
+			row[6] =rs.getInt(7);
+			row[7] =rs.getString(8);
 			model.addRow(row);
 		}
 		

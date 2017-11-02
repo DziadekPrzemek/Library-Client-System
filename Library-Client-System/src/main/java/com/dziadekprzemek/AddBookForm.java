@@ -102,7 +102,7 @@ public class AddBookForm extends JFrame {
 				String isbn = isbnTextField.getText();
 				String publisher = publisherTextField.getText();
 				AddBook addbook = new AddBook();
-				addbook.updateBookList('i', null, null, isbn, title, author, pages, publisher, year, description);
+				addbook.updateBookList(isbn, title, author, pages, publisher, year, description);
 				dispose();
 			}
 		});
