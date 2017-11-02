@@ -13,12 +13,14 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Color;
 
 public class MainWindow extends JFrame {
 
@@ -29,6 +31,7 @@ public class MainWindow extends JFrame {
 	
 	
 	public MainWindow() {
+		getContentPane().setForeground(new Color(255, 239, 213));
 		
 
 		setVisible(true);
@@ -49,7 +52,7 @@ public class MainWindow extends JFrame {
 		table = new JTable();
 		
 		scrollPane.setViewportView(table);
-		table.setEnabled(false);
+		
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
@@ -128,13 +131,26 @@ public class MainWindow extends JFrame {
 				userFrame.setVisible(true);
 			}
 		});
-		btnAddUser.setBounds(109, 364, 89, 23);
+		btnAddUser.setBounds(251, 364, 89, 23);
 		getContentPane().add(btnAddUser);
 		
 		JLabel Nazwa_zalogowanego = new JLabel("");
 		Nazwa_zalogowanego.setFont(new Font("Tahoma", Font.BOLD, 15));
 		Nazwa_zalogowanego.setBounds(831, 364, 112, 23);
 		getContentPane().add(Nazwa_zalogowanego);
+		
+		JButton btnRemoveBook = new JButton("Remove book");
+		btnRemoveBook.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				removeSelectedRows(table);
+				RemoveFromTable();
+			
+			}
+		});
+		btnRemoveBook.setBounds(118, 364, 112, 23);
+		getContentPane().add(btnRemoveBook);
 		
 		
 		
@@ -188,5 +204,50 @@ public class MainWindow extends JFrame {
 		
 		
 		
+	}
+	
+	public void removeSelectedRows(JTable table){
+		
+			
+			
+		   DefaultTableModel model = (DefaultTableModel) this.table.getModel();
+		   int[] rows = table.getSelectedRows();
+		   for(int i=0;i<rows.length;i++){
+		     model.removeRow(rows[i]-i);
+		     
+		     
+
+		     
+		   }
+}
+	public void RemoveFromTable() {
+		
+		Connection con = MyConnection.getConnection();
+		PreparedStatement ps;
+		DefaultTableModel model = (DefaultTableModel) this.table.getModel();
+		 int row = table.getSelectedRow();
+			String stringValue = table.getValueAt(row, 1).toString();
+			int value = Integer.parseInt(stringValue);	
+			
+			System.out.println(value);
+	 	
+			try {
+				
+				
+				ps = con.prepareStatement("DELETE FROM ksiazka WHERE id_ksiazka = ?");
+				
+				ps.setInt(1, value);
+									
+				if(ps.executeUpdate()>0) {
+					
+					JOptionPane.showMessageDialog(null, "Book has been Removedd!");
+					
+					
+				}
+				
+			}catch(SQLException ex) {
+				ex.printStackTrace();
+				
+			}
 	}
 }
