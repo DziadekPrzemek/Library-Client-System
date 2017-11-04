@@ -124,6 +124,26 @@ public class MainWindow extends JFrame {
 		});
 		mnAction.add(mntmAddBook);
 		
+		JMenu mnData = new JMenu("Data");
+		menuBar.add(mnData);
+		
+		JMenuItem mntmImport = new JMenuItem("Import");
+		mntmImport.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				ImportFile file = new ImportFile();
+				file.setVisible(true);
+				
+				
+				
+				
+			}
+		});
+		mnData.add(mntmImport);
+		
+		JMenuItem mntmExport = new JMenuItem("Export");
+		mnData.add(mntmExport);
+		
 		JMenu mnHelp = new JMenu("Help");
 		menuBar.add(mnHelp);
 		
