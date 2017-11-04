@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -60,10 +61,14 @@ public class AddLibrarianWindow extends JFrame {
 				String login = LibrarianLoginTextField.getText();
 				String password = String.valueOf(passwordLibrarianField.getPassword());
 				
+				if(login.length() > 2 && password.length() > 3) {
 				AddLibrarian librarian = new AddLibrarian();
 				librarian.updateBookList(login, password);
 				dispose();
-				
+				System.gc();
+				}else {
+					JOptionPane.showMessageDialog(null, "Login and password have to be min. 3 char long!");
+				}
 			}
 		});
 		btnOk.setBounds(110, 68, 76, 23);

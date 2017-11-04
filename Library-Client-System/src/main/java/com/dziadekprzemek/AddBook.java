@@ -33,7 +33,7 @@ public class AddBook {
 			}else {
 				JOptionPane.showMessageDialog(null, "Error!");
 			}
-			
+			con.close();
 		}catch(SQLException ex) {
 			ex.printStackTrace();
 		}

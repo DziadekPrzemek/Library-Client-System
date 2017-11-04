@@ -29,6 +29,7 @@ public class AddLibrarian {
 			}else {
 				JOptionPane.showMessageDialog(null, "Error!");
 			}
+			con.close();
 			
 		}catch(SQLException ex) {
 			ex.printStackTrace();

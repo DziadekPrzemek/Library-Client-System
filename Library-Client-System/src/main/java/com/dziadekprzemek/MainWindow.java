@@ -1,7 +1,13 @@
 package com.dziadekprzemek;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,6 +16,7 @@ import java.sql.SQLException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -17,15 +24,18 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.Color;
+import javax.swing.ListSelectionModel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.UIManager;
 
 public class MainWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JTable table;
+	public static JTable table;
+	private static JTextField findTextField;
 
 	
 	
@@ -41,31 +51,36 @@ public class MainWindow extends JFrame {
 		setIconImage(img.getImage());
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 23, 993, 330);
+		panel.setBorder(null);
+		panel.setForeground(Color.WHITE);
+		panel.setBounds(0, 21, 1004, 321);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 0, 997, 342);
+		scrollPane.setBounds(10, 0, 984, 321);
 		panel.add(scrollPane);
 		
 		table = new JTable();
+		table.setSurrendersFocusOnKeystroke(true);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+	
+		table.addMouseListener(new MouseAdapter() {
+		
+		});
 		
 		scrollPane.setViewportView(table);
 		
 		table.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Book ID", "ISBN", "Title", "Author", "Pages", "Publisher", "Year", "Description"
-			}
-		));
+				
+			new Object[][] { },
+			
+			new String[] {"Book ID", "ISBN", "Title", "Author", "Pages", "Publisher", "Year", "Description"}));
 		
 
 
-		
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 1063, 21);
+		menuBar.setBounds(0, 0, 1004, 21);
 		getContentPane().add(menuBar);
 		
 		JMenu SystemMenu = new JMenu("System");
@@ -73,12 +88,16 @@ public class MainWindow extends JFrame {
 		
 		JMenuItem mntmExit = new JMenuItem("Exit");
 		mntmExit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
+			
+			public void actionPerformed(ActionEvent e) { System.exit(0);	}});
 		
 		JMenuItem mntmRefresh = new JMenuItem("Refresh");
+		mntmRefresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				RefreshTable();
+			}
+		});
 		SystemMenu.add(mntmRefresh);
 		SystemMenu.add(mntmExit);
 		
@@ -89,7 +108,7 @@ public class MainWindow extends JFrame {
 		mntmAddLibrarian.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				AddLibrarianWindow window = new AddLibrarianWindow();
-				window.setResizable(false);
+				
 			}
 		});
 		mnAction.add(mntmAddLibrarian);
@@ -109,6 +128,11 @@ public class MainWindow extends JFrame {
 		menuBar.add(mnHelp);
 		
 		JMenuItem mntmAbout = new JMenuItem("About");
+		mntmAbout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Author: Przemys³aw Dziadek");
+			}
+		});
 		mnHelp.add(mntmAbout);
 		
 		JButton btnAddBook = new JButton("Add book");
@@ -134,23 +158,42 @@ public class MainWindow extends JFrame {
 		btnAddUser.setBounds(251, 364, 89, 23);
 		getContentPane().add(btnAddUser);
 		
-		JLabel Nazwa_zalogowanego = new JLabel("");
-		Nazwa_zalogowanego.setFont(new Font("Tahoma", Font.BOLD, 15));
-		Nazwa_zalogowanego.setBounds(831, 364, 112, 23);
-		getContentPane().add(Nazwa_zalogowanego);
-		
 		JButton btnRemoveBook = new JButton("Remove book");
 		btnRemoveBook.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				
 				removeSelectedRows(table);
-				RemoveFromTable();
+				
 			
 			}
 		});
 		btnRemoveBook.setBounds(118, 364, 112, 23);
 		getContentPane().add(btnRemoveBook);
+		
+		findTextField = new JTextField();
+		findTextField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				RefreshTable();
+			}
+		});
+		findTextField.setBounds(797, 365, 197, 20);
+		getContentPane().add(findTextField);
+		findTextField.setColumns(10);
+		
+		JLabel lblSearchBook = new JLabel("Search book:");
+		lblSearchBook.setBounds(698, 368, 89, 14);
+		getContentPane().add(lblSearchBook);
+		
+		JButton btnRent = new JButton("Rent");
+		btnRent.setBounds(350, 364, 89, 23);
+		getContentPane().add(btnRent);
+		
+		JButton btnReturn = new JButton("Return");
+		btnReturn.setBounds(449, 364, 89, 23);
+		getContentPane().add(btnReturn);
 		
 		
 		
@@ -209,45 +252,29 @@ public class MainWindow extends JFrame {
 	public void removeSelectedRows(JTable table){
 		
 			
-			
+		int answer = JOptionPane.showConfirmDialog(null, "Do you want to remove book?", "Confirm",JOptionPane.YES_NO_CANCEL_OPTION);
+		
+		if(answer == JOptionPane.YES_OPTION) {
+		int text = (int)table.getValueAt(Integer.valueOf(table.getSelectedRow()), 0);
+		RemoveBook rb = new RemoveBook();
+		rb.removeFromBookList(text);
+		
+	    
 		   DefaultTableModel model = (DefaultTableModel) this.table.getModel();
 		   int[] rows = table.getSelectedRows();
 		   for(int i=0;i<rows.length;i++){
 		     model.removeRow(rows[i]-i);
-		     
-		     
-
+		   }}else {
+			   JOptionPane.showMessageDialog(null, "Removing has been canceled!");
+		   }
+		   
+		   
 		     
 		   }
-}
-	public void RemoveFromTable() {
-		
-		Connection con = MyConnection.getConnection();
-		PreparedStatement ps;
-		DefaultTableModel model = (DefaultTableModel) this.table.getModel();
-		 int row = table.getSelectedRow();
-			String stringValue = table.getValueAt(row, 1).toString();
-			int value = Integer.parseInt(stringValue);	
-			
-			System.out.println(value);
-	 	
-			try {
-				
-				
-				ps = con.prepareStatement("DELETE FROM ksiazka WHERE id_ksiazka = ?");
-				
-				ps.setInt(1, value);
-									
-				if(ps.executeUpdate()>0) {
-					
-					JOptionPane.showMessageDialog(null, "Book has been Removedd!");
-					
-					
-				}
-				
-			}catch(SQLException ex) {
-				ex.printStackTrace();
-				
-			}
+
+	
+	public static void RefreshTable(){
+		table.setModel(new DefaultTableModel(null, new Object[] {"Book ID", "ISBN", "Title", "Author", "Pages","Publisher","Year","Description"}));
+		fillBookTable(table, findTextField.getText());
 	}
 }

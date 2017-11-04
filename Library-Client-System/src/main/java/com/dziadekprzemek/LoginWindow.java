@@ -65,6 +65,7 @@ public class LoginWindow extends JFrame {
 		setResizable(false);
 		
 		
+		
 		JLabel lblLibraryManagementSystem = new JLabel("Library Management System");
 		lblLibraryManagementSystem.setFont(new Font("Palatino Linotype", Font.BOLD, 18));
 		lblLibraryManagementSystem.setHorizontalAlignment(SwingConstants.CENTER);

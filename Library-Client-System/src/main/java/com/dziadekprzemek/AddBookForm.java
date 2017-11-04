@@ -7,8 +7,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.table.DefaultTableModel;
 
 
 public class AddBookForm extends JFrame {
@@ -20,7 +22,8 @@ public class AddBookForm extends JFrame {
 	private JTextField pagesTextField;
 	private JTextField yearTextField;
 	private JTextField publisherTextField;
-
+	
+	
 	
 	public AddBookForm() {
 		getContentPane().setLayout(null);
@@ -91,6 +94,8 @@ public class AddBookForm extends JFrame {
 		getContentPane().add(descriptionTextField);
 		
 		JButton btnAdd = new JButton("Add");
+		
+	
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -101,9 +106,13 @@ public class AddBookForm extends JFrame {
 				String description = descriptionTextField.getText();
 				String isbn = isbnTextField.getText();
 				String publisher = publisherTextField.getText();
+				
+				
 				AddBook addbook = new AddBook();
 				addbook.updateBookList(isbn, title, author, pages, publisher, year, description);
 				dispose();
+				MainWindow.RefreshTable();
+				
 			}
 		});
 		btnAdd.setBounds(25, 352, 89, 23);
