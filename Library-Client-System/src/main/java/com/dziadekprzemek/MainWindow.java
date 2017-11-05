@@ -108,6 +108,7 @@ public class MainWindow extends JFrame {
 		mntmAddLibrarian.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				AddLibrarianWindow window = new AddLibrarianWindow();
+				window.setVisible(true);
 				
 			}
 		});
@@ -137,11 +138,19 @@ public class MainWindow extends JFrame {
 				
 				
 				
+				
 			}
 		});
 		mnData.add(mntmImport);
 		
 		JMenuItem mntmExport = new JMenuItem("Export");
+		mntmExport.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ExportFile export = new ExportFile();
+				export.setVisible(true);
+				
+			}
+		});
 		mnData.add(mntmExport);
 		
 		JMenu mnHelp = new JMenu("Help");
