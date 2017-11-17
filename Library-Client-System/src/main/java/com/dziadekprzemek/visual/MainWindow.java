@@ -125,6 +125,7 @@ public class MainWindow extends JFrame {
 				addBookForm.setVisible(true);
 				addBookForm.setResizable(false);
 				addBookForm.setBounds(0, 0, 365, 420);
+				
 				RefreshTable();
 			}
 		});
@@ -177,6 +178,7 @@ public class MainWindow extends JFrame {
 				addBookForm.setVisible(true);
 				addBookForm.setResizable(false);
 				addBookForm.setBounds(0, 0, 365, 420);
+				RefreshTable();
 			}
 		});
 		
@@ -333,7 +335,7 @@ public class MainWindow extends JFrame {
 		   }
 
 	
-	private static void RefreshTable(){
+	public static void RefreshTable(){
 		table.setModel(new DefaultTableModel(null, new Object[] {"Book ID", "ISBN", "Title", "Author", "Pages","Publisher","Year","Description", "Status"}));
 		fillBookTable(table, findTextField.getText());
 	}

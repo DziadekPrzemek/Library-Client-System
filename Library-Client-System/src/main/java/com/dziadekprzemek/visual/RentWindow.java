@@ -69,7 +69,7 @@ public class RentWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 						
 				getRentedBookUserID(String.valueOf(table.getValueAt(table.getSelectedRow(), 0)));		
-				
+				MainWindow.RefreshTable();
 			}
 		});
 		btnRent.setBounds(10, 350, 89, 23);

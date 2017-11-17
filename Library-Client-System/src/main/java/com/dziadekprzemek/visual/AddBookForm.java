@@ -110,6 +110,7 @@ public class AddBookForm extends JFrame {
 				addbook.updateBookList(isbn, title, author, pages, publisher, year, description);
 				dispose();
 				
+				MainWindow.RefreshTable();
 				
 			}
 		});

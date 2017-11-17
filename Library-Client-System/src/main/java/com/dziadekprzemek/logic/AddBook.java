@@ -11,10 +11,11 @@ public class AddBook {
 		
 		Connection con = MyConnection.getConnection();
 		PreparedStatement ps;
+		String Status = "W wypo¿yczalni";
 		
 		try {
 			
-			ps = con.prepareStatement("INSERT INTO ksiazka (isbn, tytul, autor, stron, wydawnictwo, rok_wydania, opis) VALUES (?, ?, ?, ?, ?, ?, ?)");
+			ps = con.prepareStatement("INSERT INTO ksiazka (isbn, tytul, autor, stron, wydawnictwo, rok_wydania, opis, Status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 			
 			ps.setString(1, isbn);
 			ps.setString(2, title);
@@ -23,7 +24,7 @@ public class AddBook {
 			ps.setString(5, publisher);
 			ps.setInt(6, year);
 			ps.setString(7, description);
-	
+			ps.setString(8, Status);
 			
 			if(ps.executeUpdate()>0) {
 				
@@ -43,3 +44,4 @@ public class AddBook {
 	}
 	
 }
+;

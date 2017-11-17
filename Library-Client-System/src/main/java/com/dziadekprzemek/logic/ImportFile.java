@@ -46,7 +46,7 @@ public class ImportFile extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 			importBooksToTable();		
-				
+			MainWindow.RefreshTable();
 			}
 			
 		});
