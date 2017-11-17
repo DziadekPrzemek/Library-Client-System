@@ -1,4 +1,4 @@
-package com.dziadekprzemek;
+package com.dziadekprzemek.logic;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -25,7 +26,7 @@ public class ExportFile extends JFrame {
 	
 	
 	public ExportFile() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 381, 109);
 		setTitle("Export CSV file");
 		contentPane = new JPanel();
@@ -39,7 +40,7 @@ public class ExportFile extends JFrame {
 		contentPane.add(pathField);
 		pathField.setColumns(10);
 		
-		
+		logo();
 		
 		JButton exportBtn = new JButton("Export");
 		exportBtn.addActionListener(new ActionListener() {
@@ -53,7 +54,7 @@ public class ExportFile extends JFrame {
 				try {
 					
 					PrintWriter fw = new PrintWriter(pathField.getText());
-		            	 ps = con.prepareStatement("SELECT isbn, tytul, autor, stron, wydawnictwo, rok_wydania, opis FROM ksiazka");
+		            	 ps = con.prepareStatement("SELECT isbn, tytul, autor, stron, wydawnictwo, rok_wydania, opis, Status, numerCzytelnika FROM ksiazka");
 		            	 ResultSet rs = ps.executeQuery();
 		            	 while(rs.next()) {
 		            		 
@@ -70,6 +71,10 @@ public class ExportFile extends JFrame {
 		            		 fw.append(rs.getString(6));
 		            		 fw.append(",");
 		            		 fw.append(rs.getString(7));
+		            		 fw.append(",");
+		            		 fw.append(rs.getString(8));
+		            		 fw.append(",");
+		            		 fw.append(rs.getString(9));
 		            		 fw.append("\r\n");
 		            		 
 		            		 
@@ -123,6 +128,13 @@ public class ExportFile extends JFrame {
 		});
 		saveBtn.setBounds(10, 10, 89, 23);
 		contentPane.add(saveBtn);
+	}
+
+
+	private void logo() {
+		ImageIcon img = new ImageIcon("H:\\Dev\\Projekty\\Library-Client-System\\src\\main\\java\\Images\\book-ico.png");
+		setIconImage(img.getImage());
+		setResizable(false);
 	}
 	
 	

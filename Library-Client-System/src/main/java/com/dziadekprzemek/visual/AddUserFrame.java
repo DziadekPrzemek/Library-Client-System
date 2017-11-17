@@ -1,9 +1,10 @@
-package com.dziadekprzemek;
+package com.dziadekprzemek.visual;
 
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -12,8 +13,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-public class AddUserFrame extends JFrame {
+import com.dziadekprzemek.logic.NewUser;
 
+public class AddUserFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -25,29 +27,23 @@ public class AddUserFrame extends JFrame {
 	private JTextField cityUserTextField;
 	private JTextField districtUserTextField;
 	private JTextField postUserTextField;
-	/**
-	 * @wbp.nonvisual location=-39,289
-	 */
+
 	private final JTextField textField_7 = new JTextField();
 	private JTextField phoneUserTextField;
 	private JTextField emailUserTextField;
 
-	/**
-	 * Launch the application.
-	 */
 	
-	/**
-	 * Create the frame.
-	 */
 	public AddUserFrame() {
 		textField_7.setColumns(10);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 389, 229);
+		setTitle("Add User");
+		setBounds(100, 100, 389, 219);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		logo();
 		JLabel lblLogin = new JLabel("Login: ");
 		lblLogin.setBounds(10, 11, 80, 14);
 		contentPane.add(lblLogin);
@@ -146,7 +142,7 @@ public class AddUserFrame extends JFrame {
 				
 			}
 		});
-		btnCancel.setBounds(10, 157, 89, 23);
+		btnCancel.setBounds(10, 148, 89, 23);
 		contentPane.add(btnCancel);
 		
 		JButton btnReset = new JButton("Reset");
@@ -165,7 +161,7 @@ public class AddUserFrame extends JFrame {
 				
 			}
 		});
-		btnReset.setBounds(141, 157, 89, 23);
+		btnReset.setBounds(142, 148, 89, 23);
 		contentPane.add(btnReset);
 		
 		JButton btnAdd = new JButton("Add");
@@ -184,15 +180,29 @@ public class AddUserFrame extends JFrame {
 				 String districtUser = districtUserTextField.getText();
 				 String phoneUser = phoneUserTextField.getText();
 				 String emailUser = emailUserTextField.getText();
+				
+				 Random rand = new Random();
+				 int cardNumber = rand.nextInt(1000000000-1000000+1)+1000000;
 				 
-				user.updateUserList(loginUser, passwodrUser, lnameUser, fnameUser, adressUser, cityUser, postUser, districtUser, phoneUser, emailUser);
+				
+				
+				 
+				user.updateUserList(loginUser, passwodrUser, lnameUser, fnameUser, adressUser, cityUser, postUser, districtUser, phoneUser, emailUser, cardNumber);
 				dispose();
 				
 			}
 		});
-		btnAdd.setBounds(255, 157, 89, 23);
+		btnAdd.setBounds(261, 148, 89, 23);
 		contentPane.add(btnAdd);
+	
 		
 		
+		
+	}
+
+	private void logo() {
+		ImageIcon img = new ImageIcon("H:\\Dev\\Projekty\\Library-Client-System\\src\\main\\java\\Images\\book-ico.png");
+		setIconImage(img.getImage());
+		setResizable(false);
 	}
 }

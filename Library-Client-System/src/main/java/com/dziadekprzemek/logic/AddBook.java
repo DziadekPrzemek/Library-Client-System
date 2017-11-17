@@ -1,4 +1,4 @@
-package com.dziadekprzemek;
+package com.dziadekprzemek.logic;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -1,8 +1,6 @@
-package com.dziadekprzemek;
+package com.dziadekprzemek.visual;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -25,20 +23,20 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.ListSelectionModel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
+
+import com.dziadekprzemek.logic.ExportFile;
+import com.dziadekprzemek.logic.ImportFile;
+import com.dziadekprzemek.logic.MyConnection;
+import com.dziadekprzemek.logic.RemoveBook;
+import com.dziadekprzemek.logic.ReturnBook;
 
 public class MainWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	public static JTable table;
 	private static JTextField findTextField;
-
-	
-	
 	
 	public MainWindow() {
 		getContentPane().setForeground(new Color(255, 239, 213));
@@ -47,8 +45,8 @@ public class MainWindow extends JFrame {
 		setVisible(true);
 		getContentPane().setLayout(null);
 		setTitle("Library Managament System");
-		ImageIcon img = new ImageIcon("H:\\Dev\\Projekty\\Library-Client-System\\src\\main\\java\\Images\\book-ico.png");
-		setIconImage(img.getImage());
+		
+		logo();
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(null);
@@ -72,10 +70,12 @@ public class MainWindow extends JFrame {
 		scrollPane.setViewportView(table);
 		
 		table.setModel(new DefaultTableModel(
-				
-			new Object[][] { },
-			
-			new String[] {"Book ID", "ISBN", "Title", "Author", "Pages", "Publisher", "Year", "Description"}));
+			new Object[][] {
+			},
+			new String[] {
+				"Book ID", "ISBN", "Title", "Author", "Pages", "Publisher", "Year", "Description", "Status"
+			}
+		));
 		
 
 
@@ -96,6 +96,7 @@ public class MainWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				RefreshTable();
+				
 			}
 		});
 		SystemMenu.add(mntmRefresh);
@@ -107,6 +108,7 @@ public class MainWindow extends JFrame {
 		JMenuItem mntmAddLibrarian = new JMenuItem("Add librarian");
 		mntmAddLibrarian.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				AddLibrarianWindow window = new AddLibrarianWindow();
 				window.setVisible(true);
 				
@@ -116,13 +118,17 @@ public class MainWindow extends JFrame {
 		
 		JMenuItem mntmAddBook = new JMenuItem("Add book");
 		mntmAddBook.addActionListener(new ActionListener() {
+			
 			public void actionPerformed(ActionEvent e) {
+				
 				AddBookForm addBookForm = new AddBookForm();
 				addBookForm.setVisible(true);
 				addBookForm.setResizable(false);
 				addBookForm.setBounds(0, 0, 365, 420);
+				RefreshTable();
 			}
 		});
+		
 		mnAction.add(mntmAddBook);
 		
 		JMenu mnData = new JMenu("Data");
@@ -134,10 +140,7 @@ public class MainWindow extends JFrame {
 				
 				ImportFile file = new ImportFile();
 				file.setVisible(true);
-				
-				
-				
-				
+				RefreshTable();
 				
 			}
 		});
@@ -146,6 +149,7 @@ public class MainWindow extends JFrame {
 		JMenuItem mntmExport = new JMenuItem("Export");
 		mntmExport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				ExportFile export = new ExportFile();
 				export.setVisible(true);
 				
@@ -159,6 +163,7 @@ public class MainWindow extends JFrame {
 		JMenuItem mntmAbout = new JMenuItem("About");
 		mntmAbout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				JOptionPane.showMessageDialog(null, "Author: Przemys³aw Dziadek");
 			}
 		});
@@ -174,12 +179,14 @@ public class MainWindow extends JFrame {
 				addBookForm.setBounds(0, 0, 365, 420);
 			}
 		});
+		
 		btnAddBook.setBounds(10, 364, 89, 23);
 		getContentPane().add(btnAddBook);
 		
 		JButton btnAddUser = new JButton("Add user");
 		btnAddUser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				AddUserFrame userFrame = new AddUserFrame();
 				userFrame.setVisible(true);
 			}
@@ -190,7 +197,6 @@ public class MainWindow extends JFrame {
 		JButton btnRemoveBook = new JButton("Remove book");
 		btnRemoveBook.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				
 				removeSelectedRows(table);
 				
@@ -217,19 +223,37 @@ public class MainWindow extends JFrame {
 		getContentPane().add(lblSearchBook);
 		
 		JButton btnRent = new JButton("Rent");
+		btnRent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				RentWindow rentWindow = new RentWindow();
+				rentWindow.setVisible(true);
+				
+			}
+		});
 		btnRent.setBounds(350, 364, 89, 23);
 		getContentPane().add(btnRent);
 		
 		JButton btnReturn = new JButton("Return");
+		btnReturn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				ReturnBook.returnBook();
+				RefreshTable();
+			}
+		});
 		btnReturn.setBounds(449, 364, 89, 23);
 		getContentPane().add(btnReturn);
 		
-		
-		
 		initComponents();
-		
-		
 
+	}
+
+
+	private void logo() {
+		ImageIcon img = new ImageIcon("H:\\Dev\\Projekty\\Library-Client-System\\src\\main\\java\\Images\\book-ico.png");
+		setIconImage(img.getImage());
+		setResizable(false);
 	}
 
 
@@ -238,9 +262,7 @@ public class MainWindow extends JFrame {
 		
 	}
 	
-
-
-	public static void fillBookTable(JTable table, String valueToSearch) {
+	private static void fillBookTable(JTable table, String valueToSearch) {
 		Connection con = MyConnection.getConnection();
 		PreparedStatement ps;
 		
@@ -264,8 +286,10 @@ public class MainWindow extends JFrame {
 			row[5] =rs.getString(6);
 			row[6] =rs.getInt(7);
 			row[7] =rs.getString(8);
+			row[8] =rs.getString(9);
 			model.addRow(row);
-		}
+		} 
+		ps.close();
 		
 		
 		
@@ -278,32 +302,40 @@ public class MainWindow extends JFrame {
 		
 	}
 	
-	public void removeSelectedRows(JTable table){
+	public static int returnRow() {
+		
+		int index = (int)table.getValueAt(Integer.valueOf(table.getSelectedRow()), 0);
+		return index;
+		
+	}
+	
+	
+	
+	
+	private void removeSelectedRows(JTable table){
 		
 			
 		int answer = JOptionPane.showConfirmDialog(null, "Do you want to remove book?", "Confirm",JOptionPane.YES_NO_CANCEL_OPTION);
 		
 		if(answer == JOptionPane.YES_OPTION) {
-		int text = (int)table.getValueAt(Integer.valueOf(table.getSelectedRow()), 0);
 		RemoveBook rb = new RemoveBook();
-		rb.removeFromBookList(text);
+		rb.removeFromBookList(returnRow());
 		
 	    
-		   DefaultTableModel model = (DefaultTableModel) this.table.getModel();
+		   DefaultTableModel model = (DefaultTableModel) MainWindow.table.getModel();
 		   int[] rows = table.getSelectedRows();
 		   for(int i=0;i<rows.length;i++){
 		     model.removeRow(rows[i]-i);
 		   }}else {
 			   JOptionPane.showMessageDialog(null, "Removing has been canceled!");
 		   }
-		   
-		   
 		     
 		   }
 
 	
-	public static void RefreshTable(){
-		table.setModel(new DefaultTableModel(null, new Object[] {"Book ID", "ISBN", "Title", "Author", "Pages","Publisher","Year","Description"}));
+	private static void RefreshTable(){
+		table.setModel(new DefaultTableModel(null, new Object[] {"Book ID", "ISBN", "Title", "Author", "Pages","Publisher","Year","Description", "Status"}));
 		fillBookTable(table, findTextField.getText());
 	}
+	
 }

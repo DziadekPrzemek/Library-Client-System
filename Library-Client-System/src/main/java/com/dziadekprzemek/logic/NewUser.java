@@ -1,4 +1,4 @@
-package com.dziadekprzemek;
+package com.dziadekprzemek.logic;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 public class NewUser {
-	public void updateUserList(String loginUser, String passwodrUser, String lnameUser, String fnameUser, String adressUser, String cityUser, String postUser, String districtUser, String phoneUser, String emailUser){
+	public void updateUserList(String loginUser, String passwodrUser, String lnameUser, String fnameUser, String adressUser, String cityUser, String postUser, String districtUser, String phoneUser, String emailUser, int libraryUserCardNumber){
 		
 	
 		
@@ -16,7 +16,7 @@ public class NewUser {
 		
 		try {
 			
-			ps = con.prepareStatement("INSERT INTO czytelnik (login, haslo, imie, nazwisko, adres, miasto, wojewodztwo, telefon, kod_pocztowy, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?)");
+			ps = con.prepareStatement("INSERT INTO czytelnik (login, haslo, imie, nazwisko, adres, miasto, wojewodztwo, telefon, kod_pocztowy, email, kod_czytelnika) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?,?)");
 			
 			ps.setString(1, loginUser);
 			ps.setString(2, passwodrUser);
@@ -28,6 +28,7 @@ public class NewUser {
 			ps.setString(8, phoneUser);
 			ps.setString(9, postUser);
 			ps.setString(10, emailUser);
+			ps.setInt(11, libraryUserCardNumber);
 			
 			if(ps.executeUpdate()>0) {
 				

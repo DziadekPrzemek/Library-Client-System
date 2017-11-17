@@ -1,4 +1,4 @@
-package com.dziadekprzemek;
+package com.dziadekprzemek.visual;
 
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -21,6 +21,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import com.dziadekprzemek.logic.MyConnection;
+
 public class LoginWindow extends JFrame {
 
 
@@ -29,13 +31,12 @@ public class LoginWindow extends JFrame {
 	private JTextField loginTextField;
 	private JPasswordField passwordField;
 
-	/**
-	 * Launch the application.
-	 */
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					
 					LoginWindow frame = new LoginWindow();
 					frame.setVisible(true);
 					frame.setTitle("Login Window");
@@ -49,20 +50,18 @@ public class LoginWindow extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
+	
 	public LoginWindow() {
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 302, 218);
+		
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(154, 205, 50));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		ImageIcon img = new ImageIcon("H:\\Dev\\Projekty\\Library-Client-System\\src\\main\\java\\Images\\book-ico.png");
-		setIconImage(img.getImage());
-		setResizable(false);
 		
 		
 		
@@ -90,6 +89,9 @@ public class LoginWindow extends JFrame {
 		passwordField = new JPasswordField();
 		passwordField.setBounds(115, 91, 135, 22);
 		contentPane.add(passwordField);
+		
+		Logo();
+	
 		
 		JButton btnLogin = new JButton("LogIN");
 		btnLogin.addActionListener(new ActionListener() {
@@ -136,4 +138,12 @@ public class LoginWindow extends JFrame {
 		btnCancel.setBounds(26, 137, 89, 23);
 		contentPane.add(btnCancel);
 	}
+
+
+	private void Logo() {
+		ImageIcon img = new ImageIcon("H:\\Dev\\Projekty\\Library-Client-System\\src\\main\\java\\Images\\book-ico.png");
+		setIconImage(img.getImage());
+		setResizable(false);
+	}
+	
 }

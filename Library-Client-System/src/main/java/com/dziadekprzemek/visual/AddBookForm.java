@@ -1,4 +1,4 @@
-package com.dziadekprzemek;
+package com.dziadekprzemek.visual;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,6 +9,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+
+import com.dziadekprzemek.logic.AddBook;
 
 
 public class AddBookForm extends JFrame {
@@ -25,10 +27,8 @@ public class AddBookForm extends JFrame {
 	
 	public AddBookForm() {
 		getContentPane().setLayout(null);
-		ImageIcon img = new ImageIcon("H:\\Dev\\Projekty\\Library-Client-System\\src\\main\\java\\Images\\book-ico.png");
-		setIconImage(img.getImage());
-		setTitle("Add book");
-		
+		logo();
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		JLabel lblTitle = new JLabel("Title: ");
 		lblTitle.setBounds(10, 38, 71, 14);
 		getContentPane().add(lblTitle);
@@ -109,7 +109,7 @@ public class AddBookForm extends JFrame {
 				AddBook addbook = new AddBook();
 				addbook.updateBookList(isbn, title, author, pages, publisher, year, description);
 				dispose();
-				MainWindow.RefreshTable();
+				
 				
 			}
 		});
@@ -125,6 +125,14 @@ public class AddBookForm extends JFrame {
 		btnCancel.setBounds(231, 352, 89, 23);
 		getContentPane().add(btnCancel);
 
+	}
+
+
+
+	private void logo() {
+		ImageIcon img = new ImageIcon("H:\\Dev\\Projekty\\Library-Client-System\\src\\main\\java\\Images\\book-ico.png");
+		setIconImage(img.getImage());
+		setTitle("Add book");
 	}
 	
 		
